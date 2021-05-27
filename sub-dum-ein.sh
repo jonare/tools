@@ -1,21 +1,19 @@
 #!/bin/bash
-while read subdomain; do
+while read -r subdomain; do
 fqdn=$subdomain'.'$2
-digresult=`dig "$fqdn"`
+digresult=$(dig "$fqdn")
 
 if [[ $digresult =~ .*SERVFAIL|REFUSED.* ]]
 then
 	echo $fqdn '| failed'
 elif [[ $digresult =~ .*NOERROR.* ]]
 then
-	echo $fqdn
+	: #echo $fqdn
 elif [[ $digresult =~ .*NXDOMAIN.* ]]
 then
-	cname=`dig CNAME "$fqdn" +short` #TODO fix double dig
-
-	if [[ ! -z "$cname" ]]
+	if [[ $digresult =~ .*CNAME.* ]]
 	then
-		echo $fqdn  '| nxdomain with CNAME ' "$cname" 
+		echo $fqdn  '| nxdomain with CNAME ' $(dig CNAME "$fqdn" +short)
 	fi
 else
 	echo $fqdn  '| unknown'
