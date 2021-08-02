@@ -5,9 +5,8 @@ if [[ ! -f $1 ]]; then
   exit
 fi
 
-prefix=$(date +%d%m%y)
-subfinderfile="$prefix-subfinder.txt"
-subfinderbaseline="baseline-subfinder.txt"
+subfinderfile="subfinder-$(date +%d%m%y).txt"
+subfinderbaseline="subfinder-baseline.txt"
 
 if [[ ! -f "$subfinderfile" ]]; then
 	subfinder --silent -dL "$1" -o "$subfinderfile"
@@ -16,7 +15,7 @@ fi
 
 if [[ ! -f "$subfinderbaseline" ]]; then
 	wc -l "$subfinderfile"
-	echo "Storing subfinder results as baseline"
+	echo "Storing subfinder results as $subfinderbaseline"
 	cp "$subfinderfile" "$subfinderbaseline"
 
 else
