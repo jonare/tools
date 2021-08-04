@@ -21,6 +21,10 @@ if [[ ! -f "$subfinderbaseline" ]]; then
 else
 	wc -l "$subfinderbaseline"
 	wc -l "$subfinderfile"
+
+  echo "Diff from subfinder:"
+  diff <(sort "subfinderbaseline") <(sort "subfinderfile") --new-line-format=+%L --old-line-format=-%L --unchanged-line-format=
+
   echo "Update baseline?"
   read -r input
   if [[ "$input" = "y" ]]; then
