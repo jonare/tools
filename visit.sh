@@ -15,7 +15,6 @@ if [[ ! -f "$httpxfile" ]]; then
 fi
 
 wc -l "$httpxfile"
-bash takeover.sh
 
 if [[ ! -f "$httpxbaseline" ]]; then
   echo "Storing httpx results as $httpxbaseline"
@@ -31,3 +30,5 @@ else
     cp "$httpxfile" "$httpxbaseline"
   fi
 fi
+
+bash takeovercheck-l7.sh
