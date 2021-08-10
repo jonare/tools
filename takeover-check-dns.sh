@@ -1,11 +1,10 @@
 #!/bin/bash
-while read -r subdomain; do
-fqdn=$subdomain'.'$2
+while read -r fqdn; do
 digresult=$(dig "$fqdn")
 
 if [[ $digresult =~ .*SERVFAIL|REFUSED.* ]]
 then
-	echo $fqdn '| failed'
+	echo "$fqdn" '| failed'
 elif [[ $digresult =~ .*NOERROR.* ]]
 then
 	: #echo $fqdn
@@ -13,10 +12,10 @@ elif [[ $digresult =~ .*NXDOMAIN.* ]]
 then
 	if [[ $digresult =~ .*CNAME.* ]]
 	then
-		echo $fqdn  '| nxdomain with CNAME ' $(dig CNAME "$fqdn" +short)
+		echo "$fqdn"  '| nxdomain with CNAME' $(dig CNAME "$fqdn" +short)
 	fi
 else
-	echo $fqdn  '| unknown'
+	echo "$fqdn"  '| unknown'
 fi
 
-done < $1
+done < "$1"
