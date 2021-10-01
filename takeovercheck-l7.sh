@@ -31,6 +31,7 @@ declare -a fingerprints=(
                 "This UserVoice subdomain is currently available!"
                 "Do you want to register *.wordpress.com?"
                 "Hello! Sorry, but the website you"
+		            "Help Center Closed"
                 )
 
 for i in "${fingerprints[@]}"; do

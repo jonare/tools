@@ -5,11 +5,11 @@ if [[ ! -f $1 ]]; then
   exit
 fi
 
-subfinderfile="subfinder-$(date +%d%m%y).txt"
+subfinderfile="subfinder-$(date +%d%m%y-%H%M).txt"
 subfinderbaseline="subfinder-baseline.txt"
 
 if [[ ! -f "$subfinderfile" ]]; then
-	subfinder --silent -dL "$1" -o "$subfinderfile"
+	subfinder -silent -dL "$1" -o "$subfinderfile"
 	echo " --- "
 fi
 
@@ -22,8 +22,8 @@ else
 	wc -l "$subfinderbaseline"
 	wc -l "$subfinderfile"
 
-  echo "Diff from subfinder:"
-  diff <(sort "subfinderbaseline") <(sort "subfinderfile") --new-line-format=+%L --old-line-format=-%L --unchanged-line-format=
+  #echo "Diff from subfinder:"
+  #diff <(sort "$subfinderbaseline") <(sort "$subfinderfile") --new-line-format=+%L --old-line-format=-%L --unchanged-line-format=
 
   echo "Update baseline?"
   read -r input

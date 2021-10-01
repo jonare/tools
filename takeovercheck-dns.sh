@@ -1,10 +1,13 @@
 #!/bin/bash
+
+takeoverfile="takeovercheck-dns-$(date +%d%m%y-%H%M).txt"
+
 while read -r fqdn; do
 digresult=$(dig "$fqdn")
 
 if [[ $digresult =~ .*SERVFAIL|REFUSED.* ]]
 then
-	echo "$fqdn" '| failed'
+	echo "$fqdn" '| failed' | tee -a "$takeoverfile"
 elif [[ $digresult =~ .*NOERROR.* ]]
 then
 	: #echo $fqdn
@@ -12,10 +15,10 @@ elif [[ $digresult =~ .*NXDOMAIN.* ]]
 then
 	if [[ $digresult =~ .*CNAME.* ]]
 	then
-		echo "$fqdn"  '| nxdomain with CNAME' $(dig CNAME "$fqdn" +short)
+		echo "$fqdn"  '| nxdomain with CNAME' $(dig CNAME "$fqdn" +short) | tee -a "$takeoverfile"
 	fi
 else
-	echo "$fqdn"  '| unknown'
+	echo "$fqdn"  '| unknown' | tee -a "$takeoverfile"
 fi
 
 done < "$1"
