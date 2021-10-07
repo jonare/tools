@@ -9,7 +9,7 @@ subfinderfile="subfinder-$(date +%d%m%y-%H%M).txt"
 subfinderbaseline="subfinder-baseline.txt"
 
 if [[ ! -f "$subfinderfile" ]]; then
-	subfinder -silent -dL "$1" -o "$subfinderfile"
+	subfinder -v -dL "$1" -o "$subfinderfile"
 	echo " --- "
 fi
 

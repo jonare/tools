@@ -7,7 +7,8 @@ digresult=$(dig "$fqdn")
 
 if [[ $digresult =~ .*SERVFAIL|REFUSED.* ]]
 then
-	echo "$fqdn" '| failed' | tee -a "$takeoverfile"
+	trace=$(eval "trace-fingerprint.sh" "$fqdn")
+	echo "$fqdn" ' | failed |' "$trace" | tee -a "$takeoverfile"
 elif [[ $digresult =~ .*NOERROR.* ]]
 then
 	: #echo $fqdn
