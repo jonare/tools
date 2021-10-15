@@ -1,6 +1,7 @@
 #!/bin/bash
 
 takeoverfile="takeovercheck-dns-$(date +%d%m%y-%H%M).txt"
+touch "$takeoverfile"
 
 while read -r fqdn; do
 digresult=$(dig "$fqdn")
@@ -11,7 +12,7 @@ then
 	echo "$fqdn" ' | failed |' "$trace" | tee -a "$takeoverfile"
 elif [[ $digresult =~ .*NOERROR.* ]]
 then
-	: #echo $fqdn
+	: #echo "$fqdn" ' | noerror' | tee -a "$takeoverfile"
 elif [[ $digresult =~ .*NXDOMAIN.* ]]
 then
 	if [[ $digresult =~ .*CNAME.* ]]
