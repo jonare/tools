@@ -29,9 +29,16 @@ declare -a fingerprints=(
                 "project not found"
                 "Non-hub domain, The URL you've accessed does not provide a hub."
                 "This UserVoice subdomain is currently available!"
-                "Do you want to register *.wordpress.com?"
+                "Do you want to register"
                 "Hello! Sorry, but the website you"
-		            "Help Center Closed"
+            	"Help Center Closed"
+		"any account on the Flexbe platform"
+		"Cette landing page n'est plus disponible"
+		"Looks Like This Domain Isn't Connected To A Website Yet!"
+		"AnnounceKit"
+		"Oops! That's not the site you're looking for."
+		"We're sorry, you've landed on a page that is hosted by Flywheel, but isn't yet set up correctly."
+		"Maybe this is still fresh!
                 )
 
 for i in "${fingerprints[@]}"; do

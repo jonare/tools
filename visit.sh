@@ -10,7 +10,7 @@ httpxbaseline="httpx-baseline.txt"
 
 if [[ ! -f "$httpxfile" ]]; then
   rm -rf "output"
-  httpx -title -follow-redirects -status-code -tech-detect -http2 -l "$1" -o "$httpxfile" -threads 25 -vhost -sr
+  httpx -title -follow-redirects -status-code -tech-detect -http2 -l "$1" -o "$httpxfile" -threads 10 -vhost -sr
   echo " --- "
 fi
 
