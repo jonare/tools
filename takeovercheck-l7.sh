@@ -38,7 +38,7 @@ declare -a fingerprints=(
 		"AnnounceKit"
 		"Oops! That's not the site you're looking for."
 		"We're sorry, you've landed on a page that is hosted by Flywheel, but isn't yet set up correctly."
-		"Maybe this is still fresh!
+		"Maybe this is still fresh!"
                 )
 
 for i in "${fingerprints[@]}"; do
