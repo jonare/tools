@@ -39,8 +39,9 @@ declare -a fingerprints=(
 		"Oops! That's not the site you're looking for."
 		"We're sorry, you've landed on a page that is hosted by Flywheel, but isn't yet set up correctly."
 		"Maybe this is still fresh!"
+		"Is this your domain?"
                 )
 
 for i in "${fingerprints[@]}"; do
-   grep -lhr -F "$i" "$dir/" && echo -e "\e[1;32mSUBDOMAIN TAKEOVER MAY BE POSSIBLE!\e[0m Pattern: $i. See https://github.com/EdOverflow/can-i-take-over-xyz"
+   grep -lhri -F "$i" "$dir/" && echo -e "\e[1;32mSUBDOMAIN TAKEOVER MAY BE POSSIBLE!\e[0m Pattern: $i. See https://github.com/EdOverflow/can-i-take-over-xyz"
 done
