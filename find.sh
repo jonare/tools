@@ -6,28 +6,15 @@ if [[ ! -f $1 ]]; then
 fi
 
 subfinderfile="subfinder-$(date +%d%m%y-%H%M).txt"
-subfinderbaseline="subfinder-baseline.txt"
 
 if [[ ! -f "$subfinderfile" ]]; then
-	subfinder -v -dL "$1" -o "$subfinderfile"
+	# subfinder -silent -dL "$1" -o "$subfinderfile" > /dev/null
+	echo "blah $1"
+	subfinder -dL "$1" -o "$subfinderfile"
 	echo " --- "
 fi
 
-if [[ ! -f "$subfinderbaseline" ]]; then
-	wc -l "$subfinderfile"
-	echo "Storing subfinder results as $subfinderbaseline"
-	cp "$subfinderfile" "$subfinderbaseline"
+cat subfinder-* | sort | uniq > subfinder-union.txt
 
-else
-	wc -l "$subfinderbaseline"
-	wc -l "$subfinderfile"
-
-  #echo "Diff from subfinder:"
-  #diff <(sort "$subfinderbaseline") <(sort "$subfinderfile") --new-line-format=+%L --old-line-format=-%L --unchanged-line-format=
-
-  echo "Update baseline?"
-  read -r input
-  if [[ "$input" = "y" ]]; then
-    cp "$subfinderfile" $subfinderbaseline
-  fi
-fi
+wc -l "$subfinderfile"
+wc -l subfinder-union.txt
