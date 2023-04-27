@@ -1,16 +1,16 @@
+
 #!/bin/bash
 
 if [[ ! -f $1 ]]; then
-  echo "Usage: find.sh <file-with-top-domains-to-search>"
-  exit
+  file="domains.lst"
+else
+  file=$1
 fi
 
 subfinderfile="subfinder-$(date +%d%m%y-%H%M).txt"
 
 if [[ ! -f "$subfinderfile" ]]; then
-	# subfinder -silent -dL "$1" -o "$subfinderfile" > /dev/null
-	echo "blah $1"
-	subfinder -dL "$1" -o "$subfinderfile"
+	subfinder -all -v -dL "$file" -o "$subfinderfile"
 	echo " --- "
 fi
 
