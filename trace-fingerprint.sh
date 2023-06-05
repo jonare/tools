@@ -22,6 +22,7 @@ declare -a fingerprints=(
 		"reg.ru"
 		"yns1.yahoo.com"
 		"yns2.yahoo.com"
+		"googledomains.com"
                  )
 
 trace=$(dig "$1" +trace) 

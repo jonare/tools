@@ -3,12 +3,12 @@
 takeoverfile="takeovercheck-dns-$(date +%d%m%y-%H%M).txt"
 touch "$takeoverfile"
 
-cnamefingerprints="cloudapp.net\|cloudapp.azure.com\|azurewebsites.net\|blob.core.windows.net\|cloudapp.azure.com\|azure-api.net\|azurehdinsight.net\|azurecontainer.io\|database.windows.net\|azuredatalakestore.net\|search.windows.net\|azurecr.io\|redis.cache.windows.net\|servicebus.windows.net\|visualstudio.com\|trafficmanager.net"
+cnamefingerprints="cloudapp.net|cloudapp.azure.com|azurewebsites.net|blob.core.windows.net|cloudapp.azure.com|azure-api.net|azurehdinsight.net|azurecontainer.io|database.windows.net|azuredatalakestore.net|search.windows.net|azurecr.io|redis.cache.windows.net|servicebus.windows.net|visualstudio.com|trafficmanager.net"
 
 localdomains=".*"
 
 if [ -f "domains.lst" ]; then
-	localdomains=$(cat "domains.lst" | tr '\n' '|' | sed 's/|/\\|/g' | sed 's/\\|$//');
+	localdomains=$(cat "domains.lst" | tr '\n' '|' | sed 's/\\|$//');
 fi
 
 while read -r fqdn; do
@@ -26,13 +26,14 @@ while read -r fqdn; do
 		if [[ $digresult =~ .*CNAME.* ]]
 		then
 			cname=$(dig CNAME "$fqdn" +short)
-			result="$fqdn | nxdomain with CNAME $cname"
-			if echo -n "$cname" | grep -q "$cnamefingerprints"; then
-				result+=" | \e[1;32mInteresting CNAME\e[0m" 
-			elif echo -n "$cname" | grep -qv "$localdomains.$"; then
-				result+=" | \e[1;32mExternal CNAME\e[0m"
+			if ! [[ "$cname" =~ $localdomains.\$ ]]; then #only flag records not referring to target's adressable domains
+				result="$fqdn | nxdomain with CNAME $cname"
+				if [[ "$cname" =~ $cnamefingerprints ]]; then
+					result+=" | \e[1;32mInteresting CNAME\e[0m"
+				fi 
+				echo -e "$result" | tee -a "$takeoverfile"
 			fi
-	 		echo -e "$result" | tee -a "$takeoverfile"
+	 		
 		else
 			: #echo "$fqdn"  '| nxdomain' | tee -a "$takeoverfile"
 		fi
